@@ -9,4 +9,9 @@ export class AppController {
   sendDataIntoRabbitMq() {
     this.appService.sendDataIntoRabbitMq();
   }
+
+  @Post('hse-event')
+  sendHseEventsIntoRabbitMq() {
+    this.appService.sendHseEventsIntoRabbitMq();
+  }
 }
