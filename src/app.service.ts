@@ -7,15 +7,11 @@ import { StagingService } from './stagging/staging.service';
 export class AppService {
   constructor(private _stagingService: StagingService) {}
 
-  async sendDataIntoRabbitMq() {
+  async sendDataIntoRabbitMq(fileName: string, sheetName: string) {
     const excelFilePath =
-      process.cwd() +
-      '/' +
-      process.env.FILE_FOLDER_PATH +
-      '/' +
-      process.env.FILE_NAME;
+      process.cwd() + '/' + process.env.FILE_FOLDER_PATH + '/' + fileName;
     const file = xlxs.readFile(excelFilePath);
-    const sheet = file.Sheets[process.env.SHEET_NAME];
+    const sheet = file.Sheets[sheetName];
     const data = xlxs.utils.sheet_to_json(sheet, { raw: false });
     const connection = await amqp.connect(process.env.RABBITMQ_URL);
     const channel = await connection.createChannel();
